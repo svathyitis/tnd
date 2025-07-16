@@ -12,6 +12,7 @@
       --muted: #777;
       --accent: #6a5799;
       --accent-light: #b69ad4;
+      --highlight: #ff9900;
       --card1: #efe6f7;
       --card2: #f3eaff;
       --card3: #fdf6ff;
@@ -39,12 +40,30 @@
       color: var(--accent);
     }
 
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 60px;
+    }
+
+    .controls button {
+      padding: 8px 16px;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 20px;
       max-width: 1200px;
-      margin: 60px auto;
+      margin: 40px auto;
       padding: 0 16px;
     }
 
@@ -54,8 +73,13 @@
       padding: 20px;
       background: var(--card1);
       position: relative;
-      transition: transform 0.3s;
+      transition: transform 0.3s, border 0.3s;
       cursor: pointer;
+    }
+
+    .card.highlight {
+      border: 2px solid var(--highlight);
+      box-shadow: 0 0 0 4px rgba(255, 153, 0, 0.3);
     }
 
     .card:nth-child(4n+1) { background: var(--card1); }
@@ -134,31 +158,37 @@
     </svg>
   </button>
   <div class="cursor-dot"></div>
+
+  <div class="controls">
+    <button onclick="highlightRandomCard()">🎲 Dice Roll (Random Card)</button>
+    <button onclick="highlightCustomCard()">🔢 Pick Number (1–21)</button>
+  </div>
+
   <div class="card-grid" id="cardGrid"></div>
 
   <script>
     const data = [
-      ["Why do we feel sorrow even when we have everything?", "Do a gratitude walk and name 5 things you're thankful for.", "Outer things can't fill inner emptiness. The heart seeks meaning, not just pleasure."],
-      ["What is real and what is pretend?", "Draw or write something that feels truly real to your heart.", "The heart’s peace and love are more real than shiny distractions."],
-      ["Why does life have ups and downs?", "Talk to someone about a challenge and how you bounced back.", "Emotions rise and fall like waves. We are the deep ocean, not the waves."],
-      ["How can we play our role in life and stay peaceful?", "Take 10 minutes today to silently observe without reacting.", "Life is a stage — don’t lose yourself in the role. Awareness keeps you centered."],
-      ["What moment is the most important?", "Do a task slowly, focusing only on this moment.", "Now is where peace lives. The present is all we truly have."],
-      ["How does wisdom grow inside us?", "Write or say out loud one new thing you’ve learned recently.", "Like a seed, wisdom needs nurturing and reflection."],
-      ["Who creates our experience?", "Notice 3 times today when your thoughts shaped your feelings.", "We are the artists of our inner world."],
-      ["What are stories for?", "Share a story you love and what it teaches you.", "They unlock wisdom and help us feel and understand."],
-      ["Where is the greatest treasure?", "Close your eyes and breathe deeply — feel your heart’s peace.", "Not out there, but within."],
-      ["What gives life meaning?", "Do something kind for someone without expecting anything back.", "Balancing action, joy and inner peace gives meaning."],
-      ["What makes a great student?", "Ask a question today about something you're curious about.", "Curiosity, respect and practice."],
-      ["What helps us reach our dreams?", "List 3 things you’ll do this week to grow your dream.", "Determination is like fire inside."],
-      ["What grows in the heart?", "Do something today with honesty, courage, or kindness.", "The heart is a garden needing care."],
-      ["How can we see life more clearly?", "Look at a challenge from another person’s point of view.", "Step back and gain perspective."],
-      ["Where did everything begin?", "Draw or imagine your own version of the universe’s start.", "We're made of stardust and joy."],
-      ["How can we care for our home (Earth)?", "Pick up one piece of litter and talk about Earth care.", "Living simply, kindly, respectfully."],
-      ["What can water teach us?", "Fill a bowl with water and watch how it moves — write or think what it teaches.", "Flow around challenges."],
-      ["What is the sacred fire within?", "Light a candle or imagine one inside you. What does it represent?", "Wisdom that can’t be dimmed."],
-      ["What connects us all?", "Take 3 mindful breaths and remember we all share this air.", "We are never separate — just like breath."],
-      ["What can we learn from plants?", "Water a plant today and notice how it grows gently.", "Growth is slow and beautiful."],
-      ["Who are we really?", "Write or whisper: I am peaceful. I am aware. I am love.", "Pure awareness, peace, and love."]
+      ["Why do we feel sorrow even when we have everything?", "Do one thing today that doesn’t involve a screen.", "Outer joy can't fill inner emptiness. Real peace is within."],
+      ["What is real and what is pretend?", "Spend 5 minutes in silence.", "Kindness and awareness are real. Distractions fade."],
+      ["Why does life have ups and downs?", "Draw your current mood as a doodle.", "Like waves, emotions rise and fall. Be the ocean."],
+      ["How can we play our role in life and stay peaceful?", "Act a scene from your favorite cartoon.", "Be involved, not entangled. Stay centered."],
+      ["What moment is the most important?", "Say something nice to someone right now.", "Now is where joy and peace live."],
+      ["How does wisdom grow inside us?", "Tell a story you made up.", "Reflection, questions, and kindness grow wisdom."],
+      ["Who creates our experience?", "Walk backwards for 10 steps and smile.", "Your thoughts shape your world."],
+      ["What are stories for?", "Make up a silly poem.", "They reflect truth and unlock wisdom."],
+      ["Where is the greatest treasure?", "Hug someone in your family.", "It’s in your peaceful heart."],
+      ["What gives life meaning?", "Dance to your favorite song.", "Balance joy, peace, and kindness."],
+      ["What makes a great student?", "Teach someone something new.", "Curiosity and openness make a great learner."],
+      ["What helps us reach our dreams?", "Write one dream on a sticky note.", "Inner fire and perseverance help you fly."],
+      ["What grows in the heart?", "Give a genuine compliment.", "Kindness and courage bloom inside."],
+      ["How can we see life more clearly?", "Look at the sky for one full minute.", "Step back and gain perspective."],
+      ["Where did everything begin?", "List three beautiful things around you.", "Everything arose from light and love."],
+      ["How can we care for our home (Earth)?", "Pick up one thing to recycle.", "Gratitude and protection honor Earth."],
+      ["What can water teach us?", "Splash water on your face mindfully.", "Flow with challenges and stay soft."],
+      ["What is the sacred fire within?", "Stare at a flame or light for 20 seconds.", "Your truth is always glowing."],
+      ["What connects us all?", "Take 3 deep shared breaths with someone.", "Breath unites all beings."],
+      ["What can we learn from plants?", "Water a plant or imagine you are one.", "Grow slow, be rooted, reach light."],
+      ["Who are we really?", "Say 'I am peaceful' with eyes closed.", "You are awareness, peace, and love."]
     ];
 
     const grid = document.getElementById("cardGrid");
@@ -197,6 +227,22 @@
       dot.style.left = `${e.clientX}px`;
       dot.style.top = `${e.clientY}px`;
     });
+
+    function highlightRandomCard() {
+      highlightCard(Math.floor(Math.random() * 21));
+    }
+
+    function highlightCustomCard() {
+      const num = prompt("Enter a card number (1–21):");
+      const index = parseInt(num) - 1;
+      if (!isNaN(index) && index >= 0 && index < 21) highlightCard(index);
+    }
+
+    function highlightCard(index) {
+      document.querySelectorAll('.card').forEach((card, i) => {
+        card.classList.toggle('highlight', i === index);
+      });
+    }
   </script>
 </body>
 </html>
