@@ -149,6 +149,12 @@
     .key-hidden {
       display: none;
     }
+
+    .dice-img {
+      width: 32px;
+      height: 32px;
+      transition: transform 0.6s ease;
+    }
   </style>
 </head>
 <body>
@@ -160,8 +166,10 @@
   <div class="cursor-dot"></div>
 
   <div class="controls">
-    <button onclick="highlightRandomCard()">🎲 Dice Roll (Random Card)</button>
-    <button onclick="highlightCustomCard()">🔢 Pick Number (1–21)</button>
+    <button onclick="highlightRandomCard()">🎲 Random Card</button>
+    <button onclick="rollTD()">🎲 Truth or Dare</button>
+    <img id="diceTD" class="dice-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Purple_Dice.svg/512px-Purple_Dice.svg.png" alt="dice" />
+    <div id="tdResult" style="font-size: 1.1rem; font-weight: 600; color: var(--accent);"></div>
   </div>
 
   <div class="card-grid" id="cardGrid"></div>
@@ -192,25 +200,15 @@
     ];
 
     const grid = document.getElementById("cardGrid");
-
     data.forEach((set, i) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
         <div class="label">CARD</div>
         <div class="card-title">Card ${i + 1}</div>
-        <div class="card-section">
-          <strong>Truth</strong>
-          <span>${set[0]}</span>
-        </div>
-        <div class="card-section">
-          <strong>Dare</strong>
-          <span>${set[1]}</span>
-        </div>
-        <div class="card-section key-hidden">
-          <strong>Key</strong>
-          <span>${set[2]}</span>
-        </div>
+        <div class="card-section"><strong>Truth</strong><span>${set[0]}</span></div>
+        <div class="card-section"><strong>Dare</strong><span>${set[1]}</span></div>
+        <div class="card-section key-hidden"><strong>Key</strong><span>${set[2]}</span></div>
       `;
       card.addEventListener('dblclick', () => {
         card.querySelector('.key-hidden').classList.toggle('key-hidden');
@@ -222,26 +220,27 @@
       document.body.classList.toggle("dark-mode");
     }
 
-    const dot = document.querySelector('.cursor-dot');
     document.addEventListener('mousemove', e => {
+      const dot = document.querySelector('.cursor-dot');
       dot.style.left = `${e.clientX}px`;
       dot.style.top = `${e.clientY}px`;
     });
 
     function highlightRandomCard() {
-      highlightCard(Math.floor(Math.random() * 21));
-    }
-
-    function highlightCustomCard() {
-      const num = prompt("Enter a card number (1–21):");
-      const index = parseInt(num) - 1;
-      if (!isNaN(index) && index >= 0 && index < 21) highlightCard(index);
+      const index = Math.floor(Math.random() * 21);
+      highlightCard(index);
     }
 
     function highlightCard(index) {
       document.querySelectorAll('.card').forEach((card, i) => {
         card.classList.toggle('highlight', i === index);
       });
+    }
+
+    function rollTD() {
+      const result = Math.random() > 0.5 ? "Truth" : "Dare";
+      document.getElementById("tdResult").textContent = result;
+      document.getElementById("diceTD").style.transform = `rotate(${Math.random() * 360}deg)`;
     }
   </script>
 </body>
