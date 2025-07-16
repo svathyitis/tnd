@@ -43,8 +43,8 @@
 
     .moon-toggle {
       position: absolute;
-      top: 18px;
-      right: 18px;
+      top: 10px;
+      right: 16px;
       background: none;
       border: none;
       cursor: pointer;
@@ -55,12 +55,11 @@
     .iphone-frame {
       background: var(--box-bg);
       border-radius: 36px;
-      max-width: 360px;
       width: 100%;
-      height: 700px;
-      margin: 0 auto;
+      max-width: 390px;
+      height: 740px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      padding: 22px 14px;
+      padding: 30px 0 0;
       border: 1px solid var(--border);
       overflow: hidden;
       position: relative;
@@ -107,7 +106,6 @@
   </style>
 </head>
 <body>
-
 <div class="iphone-frame">
   <button class="moon-toggle" onclick="toggleMode()">
     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -116,35 +114,53 @@
   </button>
   <div class="swiper">
     <div class="swiper-wrapper" id="card-wrapper">
-      <!-- Cards will be injected by JavaScript -->
+      <!-- Cards will be injected here -->
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-const cards = Array.from({ length: 21 }, (_, i) => ({
-  card: `Card ${i + 1}`,
-  truth: `Truth for Card ${i + 1}: What does this story mean to you?`,
-  dare: `Dare for Card ${i + 1}: Try something bold from today’s story.`
-}));
+const truths = [
+  "Why do we feel sorrow even when we have everything?",
+  "What is real and what is pretend?",
+  "Why does life have ups and downs?",
+  "How can we play our role in life and stay peaceful?",
+  "What moment is the most important?",
+  "How does wisdom grow inside us?",
+  "Who creates our experience?",
+  "What are stories for?",
+  "Where is the greatest treasure?",
+  "What gives life meaning?",
+  "What makes a great student?",
+  "What helps us reach our dreams?",
+  "What grows in the heart?",
+  "How can we see life more clearly?",
+  "Where did everything begin?",
+  "How can we care for our home (Earth)?",
+  "What can water teach us?",
+  "What is the sacred fire within?",
+  "What connects us all?",
+  "What can we learn from plants?",
+  "Who are we really?"
+];
 
-const wrapper = document.getElementById('card-wrapper');
+const wrapper = document.getElementById("card-wrapper");
 
-cards.forEach((item) => {
+truths.forEach((q, i) => {
   wrapper.innerHTML += `
     <div class="swiper-slide">
-      <div class="card-title">${item.card}</div>
+      <div class="card-title">Card ${i + 1}</div>
       <div class="card-subtitle">Swipe ⬅ Truth | ➡ Dare</div>
-      <div class="card-content">Tap or swipe to choose...</div>
+      <div class="card-content">Welcome to Card ${i + 1}! Swipe to explore Truth or Dare based on today's story.</div>
     </div>
     <div class="swiper-slide">
       <div class="card-title">Truth</div>
-      <div class="card-content">${item.truth}</div>
+      <div class="card-content">${q}</div>
     </div>
     <div class="swiper-slide">
       <div class="card-title">Dare</div>
-      <div class="card-content">${item.dare}</div>
+      <div class="card-content">Reflect or act based on this truth today. Share your thoughts or do a kind action!</div>
     </div>
   `;
 });
@@ -152,11 +168,12 @@ cards.forEach((item) => {
 new Swiper('.swiper', {
   initialSlide: 0,
   slidesPerView: 1,
-  spaceBetween: 10,
   centeredSlides: true,
   loop: false,
+  spaceBetween: 10,
   resistanceRatio: 0.6,
   threshold: 10,
+  allowTouchMove: true,
   watchOverflow: true,
 });
 
