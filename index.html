@@ -25,9 +25,10 @@
       padding: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
       transition: background 0.3s ease, color 0.3s ease;
+      padding-top: 30px;
     }
 
     body.dark-mode {
@@ -43,23 +44,23 @@
     .moon-toggle {
       position: absolute;
       top: 18px;
-      right: 28px;
+      right: 18px;
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 100;
+      z-index: 1000;
       color: var(--accent);
     }
 
     .iphone-frame {
       background: var(--box-bg);
       border-radius: 36px;
-      max-width: 390px;
+      max-width: 360px;
       width: 100%;
-      height: 720px;
-      margin: 60px auto 40px;
+      height: 700px;
+      margin: 0 auto;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      padding: 30px 20px;
+      padding: 22px 14px;
       border: 1px solid var(--border);
       overflow: hidden;
       position: relative;
@@ -80,27 +81,27 @@
     }
 
     .card-title {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       color: var(--accent);
     }
 
     .card-subtitle {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 400;
       color: var(--muted);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     .card-content {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       line-height: 1.5;
       background: linear-gradient(145deg, rgba(106,87,153,0.06), rgba(106,87,153,0.01));
-      padding: 20px;
+      padding: 18px;
       border-radius: 18px;
       border: 1px dashed var(--accent);
-      max-width: 300px;
+      max-width: 280px;
       box-shadow: 0 0 10px rgba(106, 87, 153, 0.08);
     }
   </style>
@@ -150,10 +151,13 @@ cards.forEach((item) => {
 
 new Swiper('.swiper', {
   initialSlide: 0,
-  allowTouchMove: true,
   slidesPerView: 1,
-  spaceBetween: 30,
+  spaceBetween: 10,
   centeredSlides: true,
+  loop: false,
+  resistanceRatio: 0.6,
+  threshold: 10,
+  watchOverflow: true,
 });
 
 function toggleMode() {
