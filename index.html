@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Truth & Dare Cards</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -22,13 +21,7 @@
       background: var(--bg);
       color: var(--text);
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      transition: background 0.3s ease, color 0.3s ease;
-      padding-top: 30px;
+      padding: 22px 14px;
     }
 
     body.dark-mode {
@@ -42,9 +35,9 @@
     }
 
     .moon-toggle {
-      position: absolute;
-      top: 10px;
-      right: 16px;
+      position: fixed;
+      top: 16px;
+      right: 22px;
       background: none;
       border: none;
       cursor: pointer;
@@ -55,132 +48,273 @@
     .iphone-frame {
       background: var(--box-bg);
       border-radius: 36px;
-      width: 100%;
       max-width: 390px;
-      height: 740px;
+      margin: 60px auto;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      padding: 30px 0 0;
+      padding: 30px 22px;
       border: 1px solid var(--border);
-      overflow: hidden;
-      position: relative;
     }
 
-    .swiper {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-slide {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
+    .card-section {
+      margin-bottom: 32px;
     }
 
     .card-title {
       font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 0.4rem;
       color: var(--accent);
     }
 
     .card-subtitle {
-      font-size: 0.8rem;
-      font-weight: 400;
+      font-size: 0.9rem;
       color: var(--muted);
-      margin-bottom: 0.8rem;
+      margin-top: 10px;
+      margin-bottom: 6px;
     }
 
-    .card-content {
+    .card-box {
+      background: #f9fafc;
+      border: 1px dashed var(--accent);
+      border-radius: 18px;
+      padding: 16px;
       font-size: 0.9rem;
       line-height: 1.5;
-      background: linear-gradient(145deg, rgba(106,87,153,0.06), rgba(106,87,153,0.01));
-      padding: 18px;
-      border-radius: 18px;
-      border: 1px dashed var(--accent);
-      max-width: 280px;
-      box-shadow: 0 0 10px rgba(106, 87, 153, 0.08);
+    }
+
+    .dark-mode .card-box {
+      background: #1e1f23;
     }
   </style>
 </head>
 <body>
+<button class="moon-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
 <div class="iphone-frame">
-  <button class="moon-toggle" onclick="toggleMode()">
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </button>
-  <div class="swiper">
-    <div class="swiper-wrapper" id="card-wrapper">
-      <!-- Cards will be injected here -->
-    </div>
-  </div>
+  <div id="card-container"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-const truths = [
-  "Why do we feel sorrow even when we have everything?",
-  "What is real and what is pretend?",
-  "Why does life have ups and downs?",
-  "How can we play our role in life and stay peaceful?",
-  "What moment is the most important?",
-  "How does wisdom grow inside us?",
-  "Who creates our experience?",
-  "What are stories for?",
-  "Where is the greatest treasure?",
-  "What gives life meaning?",
-  "What makes a great student?",
-  "What helps us reach our dreams?",
-  "What grows in the heart?",
-  "How can we see life more clearly?",
-  "Where did everything begin?",
-  "How can we care for our home (Earth)?",
-  "What can water teach us?",
-  "What is the sacred fire within?",
-  "What connects us all?",
-  "What can we learn from plants?",
-  "Who are we really?"
+const truthDareData = [
+  {
+    truth: "Why do we feel sorrow even when we have everything?",
+    dare: "Do a gratitude walk and name 5 things you're thankful for.",
+    key: [
+      "Outer things can't fill inner emptiness.",
+      "The heart seeks meaning, not just pleasure.",
+      "True happiness comes from understanding, not objects."
+    ]
+  },
+  {
+    truth: "What is real and what is pretend?",
+    dare: "Draw or write something that feels truly real to your heart.",
+    key: [
+      "The heart’s peace and love are more real than shiny distractions.",
+      "Lasting joy isn’t found in illusions.",
+      "Imagination fades, but kindness remains."
+    ]
+  },
+  {
+    truth: "Why does life have ups and downs?",
+    dare: "Talk to someone about a challenge and how you bounced back.",
+    key: [
+      "Emotions rise and fall like waves.",
+      "We are the deep ocean, not the waves.",
+      "Life flows — we must learn to sail through it."
+    ]
+  },
+  {
+    truth: "How can we play our role in life and stay peaceful?",
+    dare: "Take 10 minutes today to silently observe without reacting.",
+    key: [
+      "Life is a stage — don’t lose yourself in the role.",
+      "Be involved, not entangled.",
+      "Awareness keeps you centered while playing."
+    ]
+  },
+  {
+    truth: "What moment is the most important?",
+    dare: "Do a task slowly, focusing only on this moment.",
+    key: [
+      "The present is all we ever truly have.",
+      "Worrying about the past/future steals joy.",
+      "Now is where peace lives."
+    ]
+  },
+  {
+    truth: "How does wisdom grow inside us?",
+    dare: "Write or say out loud one new thing you’ve learned recently.",
+    key: [
+      "By asking questions and reflecting.",
+      "Through good actions and kind thoughts.",
+      "Like a seed, it needs nurturing."
+    ]
+  },
+  {
+    truth: "Who creates our experience?",
+    dare: "Notice 3 times today when your thoughts shaped your feelings.",
+    key: [
+      "We do — through choices and attitude.",
+      "Our thoughts shape our reality.",
+      "We are the artists of our inner world."
+    ]
+  },
+  {
+    truth: "What are stories for?",
+    dare: "Share a story you love and what it teaches you.",
+    key: [
+      "They are keys to unlock wisdom.",
+      "Each one reflects a truth about us.",
+      "Stories help us feel and understand."
+    ]
+  },
+  {
+    truth: "Where is the greatest treasure?",
+    dare: "Close your eyes and breathe deeply — feel your heart’s peace.",
+    key: [
+      "Inside — in the peaceful heart.",
+      "Not out there, but within.",
+      "Found through stillness and self-love."
+    ]
+  },
+  {
+    truth: "What gives life meaning?",
+    dare: "Do something kind for someone without expecting anything back.",
+    key: [
+      "Balancing action, enjoyment, and inner peace.",
+      "Living kindly and wisely.",
+      "Following life’s four goals mindfully."
+    ]
+  },
+  {
+    truth: "What makes a great student?",
+    dare: "Ask a question today about something you're curious about.",
+    key: [
+      "Curiosity and patience.",
+      "Respect and practice.",
+      "Openness to learn again and again."
+    ]
+  },
+  {
+    truth: "What helps us reach our dreams?",
+    dare: "List 3 things you’ll do this week to grow your dream.",
+    key: [
+      "Determination is like fire inside.",
+      "Keep trying, even when it’s hard.",
+      "Bright inner fire lights the way."
+    ]
+  },
+  {
+    truth: "What grows in the heart?",
+    dare: "Do something today with honesty, courage, or kindness.",
+    key: [
+      "Kindness, honesty, courage.",
+      "Good actions grow good qualities.",
+      "The heart is a garden needing care."
+    ]
+  },
+  {
+    truth: "How can we see life more clearly?",
+    dare: "Look at a challenge from another person’s point of view.",
+    key: [
+      "Step back and gain perspective.",
+      "Problems shrink when seen from above.",
+      "Zoom out to see the bigger picture."
+    ]
+  },
+  {
+    truth: "Where did everything begin?",
+    dare: "Draw or imagine your own version of the universe’s start.",
+    key: [
+      "From light, love, and joy.",
+      "We're made of stardust and peace.",
+      "All came from one spark of consciousness."
+    ]
+  },
+  {
+    truth: "How can we care for our home (Earth)?",
+    dare: "Pick up one piece of litter and talk about Earth care.",
+    key: [
+      "By being grateful and protective.",
+      "Giving back with love.",
+      "Living simply, kindly, respectfully."
+    ]
+  },
+  {
+    truth: "What can water teach us?",
+    dare: "Fill a bowl with water and watch how it moves — write or think what it teaches.",
+    key: [
+      "Flow around challenges.",
+      "Be soft or strong when needed.",
+      "Keep moving toward your goal."
+    ]
+  },
+  {
+    truth: "What is the sacred fire within?",
+    dare: "Light a candle or imagine one inside you. What does it represent?",
+    key: [
+      "Wisdom that can’t be dimmed.",
+      "Inner truth, always glowing.",
+      "The light of love and clarity."
+    ]
+  },
+  {
+    truth: "What connects us all?",
+    dare: "Take 3 mindful breaths and remember we all share this air.",
+    key: [
+      "The breath — shared and sacred.",
+      "Air we inhale is from trees, others.",
+      "We are never separate — just like breath."
+    ]
+  },
+  {
+    truth: "What can we learn from plants?",
+    dare: "Water a plant today and notice how it grows gently.",
+    key: [
+      "Growth is slow and beautiful.",
+      "Give without asking back.",
+      "Rooted in stillness, reaching toward light."
+    ]
+  },
+  {
+    truth: "Who are we really?",
+    dare: "Write or whisper: I am peaceful. I am aware. I am love.",
+    key: [
+      "The Self — beyond all roles.",
+      "Pure awareness, peace, and love.",
+      "The kingdom inside — always whole and free."
+    ]
+  }
 ];
 
-const wrapper = document.getElementById("card-wrapper");
+const container = document.getElementById("card-container");
 
-truths.forEach((q, i) => {
-  wrapper.innerHTML += `
-    <div class="swiper-slide">
-      <div class="card-title">Card ${i + 1}</div>
-      <div class="card-subtitle">Swipe ⬅ Truth | ➡ Dare</div>
-      <div class="card-content">Welcome to Card ${i + 1}! Swipe to explore Truth or Dare based on today's story.</div>
-    </div>
-    <div class="swiper-slide">
-      <div class="card-title">Truth</div>
-      <div class="card-content">${q}</div>
-    </div>
-    <div class="swiper-slide">
-      <div class="card-title">Dare</div>
-      <div class="card-content">Reflect or act based on this truth today. Share your thoughts or do a kind action!</div>
+truthDareData.forEach((item, i) => {
+  const card = document.createElement("div");
+  card.className = "card-section";
+  card.innerHTML = `
+    <div class="card-title">Card ${i + 1}</div>
+    <div class="card-subtitle">Truth</div>
+    <div class="card-box">${item.truth}</div>
+    <div class="card-subtitle">Dare</div>
+    <div class="card-box">${item.dare}</div>
+    <div class="card-subtitle">Key</div>
+    <div class="card-box">
+      <ul style="padding-left: 16px; margin: 0;">
+        ${item.key.map(k => `<li>${k}</li>`).join("")}
+      </ul>
     </div>
   `;
-});
-
-new Swiper('.swiper', {
-  initialSlide: 0,
-  slidesPerView: 1,
-  centeredSlides: true,
-  loop: false,
-  spaceBetween: 10,
-  resistanceRatio: 0.6,
-  threshold: 10,
-  allowTouchMove: true,
-  watchOverflow: true,
+  container.appendChild(card);
 });
 
 function toggleMode() {
   document.body.classList.toggle("dark-mode");
 }
 </script>
-
 </body>
 </html>
