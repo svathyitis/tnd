@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>21 Truth & Dare Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --text: #1c1c1e;
+      --muted: #777;
+      --border: #d9e1ec;
+      --accent: #6a5799;
+      --accent-hover: #8473c6;
+      --box-bg: #ffffff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .iphone-frame {
+      background: var(--box-bg);
+      border-radius: 36px;
+      max-width: 390px;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      padding: 30px 22px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swiper {
+      width: 100%;
+      height: auto;
+    }
+
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .card-content {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .swiper-button-prev, .swiper-button-next {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<div class="iphone-frame">
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <!-- Day 1 Cards Example -->
+      <div class="swiper-slide">
+        <div class="card-title">Day 1</div>
+        <div class="card-subtitle">Swipe to explore Truth & Dare</div>
+      </div>
+      <div class="swiper-slide">
+        <div class="card-title">Truth</div>
+        <div class="card-content">
+          Why do we feel sorrow even when we have everything?<br/><br/>
+          • Outer things can't fill inner emptiness.<br/>
+          • The heart seeks meaning, not just pleasure.<br/>
+          • True happiness comes from understanding.
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="card-title">Dare</div>
+        <div class="card-content">
+          Sit quietly for 3 minutes and observe your breath. Think of something you're grateful for today.
+        </div>
+      </div>
+      <!-- Repeat similar blocks for Day 2–21 -->
+    </div>
+
+    <!-- Navigation -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.swiper', {
+    loop: false,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    spaceBetween: 40
+  });
+</script>
+
+</body>
+</html>
