@@ -21,11 +21,15 @@
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 20px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    .dark-mode {
+    body.dark-mode {
       --bg: #1c1c1e;
       --text: #f4f6f9;
       --muted: #aaa;
@@ -36,36 +40,35 @@
     }
 
     .moon-toggle {
-      position: absolute;
-      top: 10px;
+      position: fixed;
+      top: 14px;
       right: 20px;
       background: none;
       border: none;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       cursor: pointer;
+      z-index: 100;
       color: var(--accent);
-      z-index: 10;
     }
 
     .iphone-frame {
       background: var(--box-bg);
       border-radius: 36px;
-      max-width: 390px;
       width: 100%;
-      margin: 0 auto;
+      max-width: 390px;
+      height: 800px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      padding: 40px 22px;
+      padding: 24px 16px;
       border: 1px solid var(--border);
-      position: relative;
       overflow: hidden;
-      border: 1.5px solid transparent;
-      background-clip: padding-box;
-      background-image: linear-gradient(145deg, rgba(144,137,245,0.3), rgba(240,147,251,0.3));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .swiper {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
 
     .swiper-slide {
@@ -78,9 +81,9 @@
     }
 
     .card-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
       color: var(--accent);
     }
 
@@ -88,20 +91,21 @@
       font-size: 0.95rem;
       font-weight: 400;
       color: var(--muted);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     .card-content {
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.5;
-      background: rgba(106,87,153,0.08);
+      background: rgba(106,87,153,0.06);
       padding: 18px;
       border-radius: 14px;
       border: 1px dashed var(--accent);
+      max-width: 320px;
     }
 
     .swiper-button-prev, .swiper-button-next {
-      color: var(--accent);
+      display: none;
     }
   </style>
 </head>
@@ -115,7 +119,7 @@
       <!-- Card 1 Base -->
       <div class="swiper-slide">
         <div class="card-title">Card 1</div>
-        <div class="card-subtitle">Swipe left for Truth, right for Dare</div>
+        <div class="card-subtitle">Swipe ➡ for Dare, ⬅ for Truth</div>
       </div>
       <div class="swiper-slide">
         <div class="card-title">Truth</div>
@@ -133,9 +137,6 @@
         </div>
       </div>
     </div>
-    <!-- Swiper Navigation -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
   </div>
 </div>
 
@@ -144,11 +145,10 @@
   const swiper = new Swiper('.swiper', {
     loop: false,
     initialSlide: 0,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    spaceBetween: 40
+    allowTouchMove: true,
+    spaceBetween: 20,
+    centeredSlides: true,
+    slidesPerView: 1.1
   });
 
   function toggleMode() {
