@@ -57,7 +57,7 @@
       width: 100%;
       max-width: 390px;
       height: 800px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
       padding: 24px 16px;
       border: 1px solid var(--border);
       overflow: hidden;
@@ -81,31 +81,38 @@
     }
 
     .card-title {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       color: var(--accent);
     }
 
     .card-subtitle {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 400;
       color: var(--muted);
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .card-content {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      background: rgba(106,87,153,0.06);
-      padding: 18px;
-      border-radius: 14px;
+      font-size: 1rem;
+      line-height: 1.6;
+      background: linear-gradient(145deg, rgba(106,87,153,0.07), rgba(106,87,153,0.02));
+      padding: 20px;
+      border-radius: 18px;
       border: 1px dashed var(--accent);
-      max-width: 320px;
+      max-width: 300px;
+      box-shadow: 0 0 14px rgba(106, 87, 153, 0.1);
     }
 
     .swiper-button-prev, .swiper-button-next {
       display: none;
+    }
+
+    @media screen and (max-width: 420px) {
+      .iphone-frame {
+        height: 700px;
+      }
     }
   </style>
 </head>
@@ -119,7 +126,8 @@
       <!-- Card 1 Base -->
       <div class="swiper-slide">
         <div class="card-title">Card 1</div>
-        <div class="card-subtitle">Swipe ➡ for Dare, ⬅ for Truth</div>
+        <div class="card-subtitle">Swipe ⬅ for Truth | ➡ for Dare</div>
+        <div class="card-content">Welcome to the Journey!<br><br>Every card opens a door. Choose with courage and curiosity.</div>
       </div>
       <div class="swiper-slide">
         <div class="card-title">Truth</div>
@@ -146,9 +154,9 @@
     loop: false,
     initialSlide: 0,
     allowTouchMove: true,
-    spaceBetween: 20,
     centeredSlides: true,
-    slidesPerView: 1.1
+    slidesPerView: 1.1,
+    spaceBetween: 20
   });
 
   function toggleMode() {
