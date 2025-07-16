@@ -55,6 +55,7 @@
       background: var(--card1);
       position: relative;
       transition: transform 0.3s;
+      cursor: pointer;
     }
 
     .card:nth-child(4n+1) { background: var(--card1); }
@@ -120,6 +121,10 @@
       z-index: 9999;
       mix-blend-mode: multiply;
     }
+
+    .key-hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -172,11 +177,14 @@
           <strong>Dare</strong>
           <span>${set[1]}</span>
         </div>
-        <div class="card-section">
+        <div class="card-section key-hidden">
           <strong>Key</strong>
           <span>${set[2]}</span>
         </div>
       `;
+      card.addEventListener('dblclick', () => {
+        card.querySelector('.key-hidden').classList.toggle('key-hidden');
+      });
       grid.appendChild(card);
     });
 
@@ -184,7 +192,6 @@
       document.body.classList.toggle("dark-mode");
     }
 
-    // Cursor trace effect
     const dot = document.querySelector('.cursor-dot');
     document.addEventListener('mousemove', e => {
       dot.style.left = `${e.clientX}px`;
