@@ -1,124 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF‑8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Truth & Dare – Yoga Vasishta</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Truth & Dare Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f9fafc;
-      --card-bg: #fff;
+      --bg: #f9f6fc;
       --text: #1c1c1e;
-      --muted: #555;
+      --muted: #777;
       --accent: #6a5799;
-      --shadow: rgba(0, 0, 0, 0.08);
+      --accent-light: #b69ad4;
+      --card1: #efe6f7;
+      --card2: #f3eaff;
+      --card3: #fdf6ff;
+      --card4: #e7dbf1;
+      --card5: #f6ebf9;
     }
+
     body {
-      margin: 0; padding: 24px;
-      background: var(--bg);
       font-family: 'Inter', sans-serif;
+      background: var(--bg);
       color: var(--text);
+      margin: 0;
+      padding: 22px 14px;
+      overflow-x: hidden;
     }
-    .toggle {
+
+    .moon-toggle {
       position: fixed;
-      top: 16px; right: 24px;
-      background: none; border: none;
+      top: 14px;
+      right: 20px;
+      background: none;
+      border: none;
       cursor: pointer;
+      z-index: 1000;
       color: var(--accent);
-      z-index: 100;
     }
-    .container {
-      max-width: 390px;
-      margin: 0 auto;
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 16px;
     }
+
     .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 16px var(--shadow);
-      margin-bottom: 24px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
       padding: 20px;
+      background: var(--card1);
+      position: relative;
+      transition: transform 0.3s;
     }
-    .card h2 {
-      font-size: 1.2rem;
-      margin: 0 0 12px;
+
+    .card:nth-child(4n+1) { background: var(--card1); }
+    .card:nth-child(4n+2) { background: var(--card2); }
+    .card:nth-child(4n+3) { background: var(--card3); }
+    .card:nth-child(4n+4) { background: var(--card4); }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 0.7rem;
+      font-weight: 600;
       color: var(--accent);
+      position: absolute;
+      left: 10px;
+      top: 14px;
     }
-    .card h3 {
-      font-size: 1rem;
-      margin: 10px 0 6px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-    .card p, .card ul {
-      margin: 0 0 12px;
-      font-size: 0.9rem; line-height: 1.5;
-    }
-    .card ul {
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
       padding-left: 20px;
     }
-    body.dark {
-      background: #1a1a1d;
-      color: #e4e4e6;
+
+    .card-section {
+      margin-top: 0.5rem;
+      padding-left: 20px;
     }
-    body.dark .card {
-      background: #242428;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+
+    .card-section strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: var(--accent);
     }
-    body.dark .toggle {
-      color: #b69ad4;
+
+    .card-section span {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ff0055;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: multiply;
     }
   </style>
 </head>
 <body>
+  <button class="moon-toggle" onclick="toggleMode()">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+  <div class="cursor-dot"></div>
+  <div class="card-grid" id="cardGrid"></div>
 
-<button class="toggle" onclick="toggleMode()">
-  <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
-    <path d="M21 12.79a9 9 0 11-9.79-9.79 7 7 0 009.79 9.79z"/>
-  </svg>
-</button>
+  <script>
+    const data = [
+      ["Why do we feel sorrow even when we have everything?", "Do a gratitude walk and name 5 things you're thankful for.", "Outer things can't fill inner emptiness. The heart seeks meaning, not just pleasure."],
+      ["What is real and what is pretend?", "Draw or write something that feels truly real to your heart.", "The heart’s peace and love are more real than shiny distractions."],
+      ["Why does life have ups and downs?", "Talk to someone about a challenge and how you bounced back.", "Emotions rise and fall like waves. We are the deep ocean, not the waves."],
+      ["How can we play our role in life and stay peaceful?", "Take 10 minutes today to silently observe without reacting.", "Life is a stage — don’t lose yourself in the role. Awareness keeps you centered."],
+      ["What moment is the most important?", "Do a task slowly, focusing only on this moment.", "Now is where peace lives. The present is all we truly have."],
+      ["How does wisdom grow inside us?", "Write or say out loud one new thing you’ve learned recently.", "Like a seed, wisdom needs nurturing and reflection."],
+      ["Who creates our experience?", "Notice 3 times today when your thoughts shaped your feelings.", "We are the artists of our inner world."],
+      ["What are stories for?", "Share a story you love and what it teaches you.", "They unlock wisdom and help us feel and understand."],
+      ["Where is the greatest treasure?", "Close your eyes and breathe deeply — feel your heart’s peace.", "Not out there, but within."],
+      ["What gives life meaning?", "Do something kind for someone without expecting anything back.", "Balancing action, joy and inner peace gives meaning."],
+      ["What makes a great student?", "Ask a question today about something you're curious about.", "Curiosity, respect and practice."],
+      ["What helps us reach our dreams?", "List 3 things you’ll do this week to grow your dream.", "Determination is like fire inside."],
+      ["What grows in the heart?", "Do something today with honesty, courage, or kindness.", "The heart is a garden needing care."],
+      ["How can we see life more clearly?", "Look at a challenge from another person’s point of view.", "Step back and gain perspective."],
+      ["Where did everything begin?", "Draw or imagine your own version of the universe’s start.", "We're made of stardust and joy."],
+      ["How can we care for our home (Earth)?", "Pick up one piece of litter and talk about Earth care.", "Living simply, kindly, respectfully."],
+      ["What can water teach us?", "Fill a bowl with water and watch how it moves — write or think what it teaches.", "Flow around challenges."],
+      ["What is the sacred fire within?", "Light a candle or imagine one inside you. What does it represent?", "Wisdom that can’t be dimmed."],
+      ["What connects us all?", "Take 3 mindful breaths and remember we all share this air.", "We are never separate — just like breath."],
+      ["What can we learn from plants?", "Water a plant today and notice how it grows gently.", "Growth is slow and beautiful."],
+      ["Who are we really?", "Write or whisper: I am peaceful. I am aware. I am love.", "Pure awareness, peace, and love."]
+    ];
 
-<div class="container" id="container"></div>
+    const grid = document.getElementById("cardGrid");
 
-<script>
-  const data = [
-    {
-      truth: "Why do we feel sorrow even when we have everything?",
-      dare: "Do a gratitude walk and name 5 things you're thankful for.",
-      key: [
-        "Outer things can't fill inner emptiness.",
-        "The heart seeks meaning, not just pleasure.",
-        "True happiness comes from understanding, not objects."
-      ]
-    },
-    {
-      truth: "What is real and what is pretend?",
-      dare: "Draw or write something that feels truly real to your heart.",
-      key: [
-        "The heart’s peace and love are more real than shiny distractions.",
-        "Lasting joy isn’t found in illusions.",
-        "Imagination fades, but kindness remains."
-      ]
-    },
-    /* ... repeat for cards 3–21 ... */
-  ];
+    data.forEach((set, i) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="label">CARD</div>
+        <div class="card-title">Card ${i + 1}</div>
+        <div class="card-section">
+          <strong>Truth</strong>
+          <span>${set[0]}</span>
+        </div>
+        <div class="card-section">
+          <strong>Dare</strong>
+          <span>${set[1]}</span>
+        </div>
+        <div class="card-section">
+          <strong>Key</strong>
+          <span>${set[2]}</span>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
 
-  const container = document.getElementById('container');
-  data.forEach((c, i) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <h2>Card ${i+1}</h2>
-      <h3>Truth</h3><p>${c.truth}</p>
-      <h3>Dare</h3><p>${c.dare}</p>
-      <h3>Key</h3><ul>${c.key.map(k => `<li>${k}</li>`).join('')}</ul>
-    `;
-    container.appendChild(card);
-  });
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+    }
 
-  function toggleMode() {
-    document.body.classList.toggle('dark');
-  }
-</script>
+    // Cursor trace effect
+    const dot = document.querySelector('.cursor-dot');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+    });
+  </script>
 </body>
 </html>
