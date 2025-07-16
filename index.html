@@ -40,16 +40,15 @@
     }
 
     .moon-toggle {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: absolute;
+      top: 24px;
+      right: 36px;
       background: none;
       border: none;
-      font-size: 1.8rem;
       cursor: pointer;
       z-index: 100;
       color: var(--accent);
+      font-size: 24px;
     }
 
     .iphone-frame {
@@ -58,11 +57,12 @@
       max-width: 390px;
       width: 100%;
       height: 720px;
-      margin: 80px auto 40px;
+      margin: 60px auto 40px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       padding: 30px 20px;
       border: 1px solid var(--border);
       overflow: hidden;
+      position: relative;
     }
 
     .swiper {
@@ -107,9 +107,12 @@
 </head>
 <body>
 
-<button class="moon-toggle" onclick="toggleMode()">🌙</button>
-
 <div class="iphone-frame">
+  <button class="moon-toggle" onclick="toggleMode()">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
   <div class="swiper">
     <div class="swiper-wrapper">
       <!-- Cards will be injected here by JavaScript -->
@@ -119,24 +122,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-const cards = [
-  {
-    card: 'Card 1',
-    truth: 'Why do we feel sorrow even with everything?\n\n• Outer things can’t fill inner emptiness.\n• Heart seeks purpose.\n• Peace comes from within.',
-    dare: 'Sit still 3 mins and observe your breath.\nThink of 3 things you’re grateful for.'
-  },
-  {
-    card: 'Card 2',
-    truth: 'What is real and what is dream?\n\n• Real is what stays.\n• Feelings and love are lasting.\n• Imagination is fleeting.',
-    dare: 'List 5 things that money can’t buy but make you happy.'
-  },
-  {
-    card: 'Card 3',
-    truth: 'Why does life go up and down?\n\n• Like ocean waves, feelings rise and fall.\n• Deep inside, we are calm.\n• Ride the waves with grace.',
-    dare: 'Write down your strongest feeling today and sit with it calmly for 2 minutes.'
-  },
-  // ... fill up remaining cards from Day 4 to Day 21 in same format
-];
+const cards = Array.from({ length: 21 }, (_, i) => ({
+  card: `Card ${i + 1}`,
+  truth: `This is a Truth for Card ${i + 1}. What is something meaningful to you?`,
+  dare: `This is a Dare for Card ${i + 1}. Try smiling at 3 people today.`
+}));
 
 const wrapper = document.querySelector('.swiper-wrapper');
 
@@ -145,26 +135,25 @@ cards.forEach((item, index) => {
     <div class="swiper-slide">
       <div class="card-title">${item.card}</div>
       <div class="card-subtitle">Swipe ⬅ Truth | ➡ Dare</div>
-      <div class="card-content">Choose your path...</div>
+      <div class="card-content">Pick your path...</div>
     </div>
     <div class="swiper-slide">
       <div class="card-title">Truth</div>
-      <div class="card-content">${item.truth.replace(/\n/g, '<br>')}</div>
+      <div class="card-content">${item.truth}</div>
     </div>
     <div class="swiper-slide">
       <div class="card-title">Dare</div>
-      <div class="card-content">${item.dare.replace(/\n/g, '<br>')}</div>
+      <div class="card-content">${item.dare}</div>
     </div>
   `;
 });
 
 const swiper = new Swiper('.swiper', {
-  loop: false,
   initialSlide: 0,
   allowTouchMove: true,
+  slidesPerView: 1,
   centeredSlides: true,
-  slidesPerView: 1.15,
-  spaceBetween: 18
+  spaceBetween: 24,
 });
 
 function toggleMode() {
