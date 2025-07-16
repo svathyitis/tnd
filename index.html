@@ -39,40 +39,30 @@
       --box-bg: #2a2a2e;
     }
 
+    .moon-toggle {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      z-index: 100;
+      color: var(--accent);
+    }
+
     .iphone-frame {
       background: var(--box-bg);
       border-radius: 36px;
-      width: 100%;
       max-width: 390px;
-      height: 740px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-      padding: 18px 14px;
+      width: 100%;
+      height: 720px;
+      margin: 80px auto 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      padding: 30px 20px;
       border: 1px solid var(--border);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      position: relative;
-    }
-
-    .moon-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--accent);
-      padding: 6px;
-      margin-bottom: 10px;
-      align-self: flex-end;
-    }
-
-    .moon-toggle svg {
-      width: 26px;
-      height: 26px;
-      transition: transform 0.3s ease;
-    }
-
-    .moon-toggle:hover svg {
-      transform: rotate(15deg);
     }
 
     .swiper {
@@ -90,97 +80,97 @@
     }
 
     .card-title {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
       color: var(--accent);
     }
 
     .card-subtitle {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: var(--muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .card-content {
-      font-size: 1rem;
-      line-height: 1.6;
-      background: linear-gradient(145deg, rgba(106,87,153,0.07), rgba(106,87,153,0.02));
+      font-size: 0.95rem;
+      line-height: 1.5;
+      background: linear-gradient(145deg, rgba(106,87,153,0.06), rgba(106,87,153,0.01));
       padding: 20px;
       border-radius: 18px;
       border: 1px dashed var(--accent);
       max-width: 300px;
-      box-shadow: 0 0 14px rgba(106, 87, 153, 0.1);
-    }
-
-    @media screen and (max-width: 420px) {
-      .iphone-frame {
-        height: 660px;
-      }
+      box-shadow: 0 0 10px rgba(106, 87, 153, 0.08);
     }
   </style>
 </head>
 <body>
 
-<div class="iphone-frame">
-  <!-- Moon Toggle Icon -->
-  <button class="moon-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path>
-    </svg>
-  </button>
+<button class="moon-toggle" onclick="toggleMode()">🌙</button>
 
-  <!-- Swiper Cards -->
+<div class="iphone-frame">
   <div class="swiper">
     <div class="swiper-wrapper">
-      <!-- Card 1 Base -->
-      <div class="swiper-slide">
-        <div class="card-title">Card 1</div>
-        <div class="card-subtitle">⬅ Truth | Dare ➡</div>
-        <div class="card-content">
-          Welcome to the Journey!<br><br>Every card opens a door.<br>Choose with courage and curiosity.
-        </div>
-      </div>
-
-      <!-- Truth Slide -->
-      <div class="swiper-slide">
-        <div class="card-title">Truth</div>
-        <div class="card-content">
-          Why do we feel sorrow even when we have everything?<br><br>
-          • Outer things can't fill inner emptiness.<br>
-          • The heart seeks meaning, not just pleasure.<br>
-          • True happiness comes from understanding.
-        </div>
-      </div>
-
-      <!-- Dare Slide -->
-      <div class="swiper-slide">
-        <div class="card-title">Dare</div>
-        <div class="card-content">
-          Sit quietly for 3 minutes and observe your breath.<br>
-          Think of one thing you're grateful for today.
-        </div>
-      </div>
+      <!-- Cards will be injected here by JavaScript -->
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  const swiper = new Swiper('.swiper', {
-    loop: false,
-    initialSlide: 0,
-    allowTouchMove: true,
-    centeredSlides: true,
-    slidesPerView: 1.15,
-    spaceBetween: 16
-  });
+const cards = [
+  {
+    card: 'Card 1',
+    truth: 'Why do we feel sorrow even with everything?\n\n• Outer things can’t fill inner emptiness.\n• Heart seeks purpose.\n• Peace comes from within.',
+    dare: 'Sit still 3 mins and observe your breath.\nThink of 3 things you’re grateful for.'
+  },
+  {
+    card: 'Card 2',
+    truth: 'What is real and what is dream?\n\n• Real is what stays.\n• Feelings and love are lasting.\n• Imagination is fleeting.',
+    dare: 'List 5 things that money can’t buy but make you happy.'
+  },
+  {
+    card: 'Card 3',
+    truth: 'Why does life go up and down?\n\n• Like ocean waves, feelings rise and fall.\n• Deep inside, we are calm.\n• Ride the waves with grace.',
+    dare: 'Write down your strongest feeling today and sit with it calmly for 2 minutes.'
+  },
+  // ... fill up remaining cards from Day 4 to Day 21 in same format
+];
 
-  function toggleMode() {
-    document.body.classList.toggle("dark-mode");
-  }
+const wrapper = document.querySelector('.swiper-wrapper');
+
+cards.forEach((item, index) => {
+  wrapper.innerHTML += `
+    <div class="swiper-slide">
+      <div class="card-title">${item.card}</div>
+      <div class="card-subtitle">Swipe ⬅ Truth | ➡ Dare</div>
+      <div class="card-content">Choose your path...</div>
+    </div>
+    <div class="swiper-slide">
+      <div class="card-title">Truth</div>
+      <div class="card-content">${item.truth.replace(/\n/g, '<br>')}</div>
+    </div>
+    <div class="swiper-slide">
+      <div class="card-title">Dare</div>
+      <div class="card-content">${item.dare.replace(/\n/g, '<br>')}</div>
+    </div>
+  `;
+});
+
+const swiper = new Swiper('.swiper', {
+  loop: false,
+  initialSlide: 0,
+  allowTouchMove: true,
+  centeredSlides: true,
+  slidesPerView: 1.15,
+  spaceBetween: 18
+});
+
+function toggleMode() {
+  document.body.classList.toggle("dark-mode");
+}
 </script>
+
 </body>
 </html>
